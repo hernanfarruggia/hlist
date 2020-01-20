@@ -1,6 +1,7 @@
 import { 
     TODO_ADD,
     TODO_DELETE,
+    TODO_GET_SUCCESS,
     TODO_UPDATE
  } from './actions';
 
@@ -11,6 +12,11 @@ const initialState = {
 const reducer = (state = initialState, action) => {
 
     switch (action.type) {
+
+        case TODO_GET_SUCCESS:
+            return {
+                todos: action.todos
+            };
 
         case TODO_ADD:
             return {
