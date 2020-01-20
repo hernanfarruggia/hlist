@@ -1,0 +1,22 @@
+.todo-list {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.todo-list .item {
+    align-items: center;
+    background-color: #ffffff;
+    border-radius: 35px;
+    box-shadow: 5px 5px 8px #e5e5e5;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12px;
+    padding: 15px 25px 15px 25px;
+}
+
+.todo-list .empty {
+    color: #aaaaaa;
+    text-align: center;
+}
