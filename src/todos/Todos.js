@@ -29,6 +29,11 @@ class Todos extends React.Component {
     render () {
         return (
             <div className="todos">
+                { 
+                    this.props.error ?
+                        this.renderError() :
+                        null
+                }
                 <TodoForm
                     handleNewItem={this.handleNewItem} />
 
@@ -38,12 +43,18 @@ class Todos extends React.Component {
             </div>
         );
     }
+
+    renderError () {
+        return (
+            <div className="error">
+                There was an error!
+            </div>
+        );
+    }
 }
 
 const mapStateToProps = (state) => {
-    return {
-        todos: state.todos
-    };
+    return state;
 }
 
 const mapDispatchToProps = (dispatch) => {

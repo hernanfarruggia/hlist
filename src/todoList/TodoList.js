@@ -4,6 +4,9 @@ import './todoList.css';
 
 function TodoList (props) {
 
+    // This clones the todos array and reverse the order to always display the new on top 
+    const todos = props.todos.slice(0, props.todos.length).reverse();
+
     const handleDelete = (id) => {
         props.handleDeleteItem(id)
     }
@@ -34,9 +37,9 @@ function TodoList (props) {
     return (
         <div className="todo-list">
             { 
-                _.isEmpty(props.todos) ?
-                renderEmtpyMessage() :
-                props.todos.map(renderItems) 
+                _.isEmpty(todos) ?
+                    renderEmtpyMessage() :
+                    todos.map(renderItems) 
             }
         </div>
     );
