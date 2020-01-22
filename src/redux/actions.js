@@ -24,7 +24,7 @@ export function todos_get () {
         fetch(`${url}todos`, options)
             .then(res => {
                 return res.json()
-                    .then(data => data);
+                    .then(res => res.data);
             })
             .then(todos => dispatch(todos_get_success(todos)))
             .catch(err => dispatch(todos_get_failure(err)));
