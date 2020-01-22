@@ -15,7 +15,7 @@ function TodoList (props) {
                 <div className="item-action">
                     <button
                         className="button-secondary"
-                        onClick={ () => handleDelete(key) }>
+                        onClick={ () => handleDelete(item.id) }>
                         -
                     </button>
                 </div>

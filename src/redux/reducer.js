@@ -1,41 +1,72 @@
 import { 
-    TODO_ADD,
-    TODO_DELETE,
+    TODO_ADD_FAILURE,
+    TODO_ADD_SUCCESS,
+    TODO_DELETE_FAILURE,
+    TODO_DELETE_SUCCESS,
+    TODO_GET_FAILURE,
     TODO_GET_SUCCESS,
-    TODO_UPDATE
+    TODO_UPDATE_FAILURE,
+    TODO_UPDATE_SUCCESS
  } from './actions';
 
 const initialState = {
-    todos: []
+    todos: [],
+    error: false
 };
 
 const reducer = (state = initialState, action) => {
 
     switch (action.type) {
 
-        case TODO_GET_SUCCESS:
+        case TODO_ADD_SUCCESS:
             return {
-                todos: action.todos
-            };
-
-        case TODO_ADD:
-            return {
+                error: false,
                 todos: [
                     ...state.todos,
                     action.todo
                 ]
             };
 
-        case TODO_UPDATE:
+        case TODO_ADD_FAILURE:
             return {
+                ...state,
+                error: action.error
+            };
+
+        case TODO_DELETE_SUCCESS:
+            return {
+                error: false,
+                todos: state.todos.filter(todo => todo.id !== action.id)
+            };
+
+        case TODO_DELETE_FAILURE:
+            return {
+                ...state,
+                error: action.error
+            };
+
+        case TODO_GET_SUCCESS:
+            return {
+                error: false,
                 todos: action.todos
             };
 
-        case TODO_DELETE:
+        case TODO_GET_FAILURE:
             return {
-                todos: state.todos.filter((todo, key) => {
-                    return key !== action.id
-                })
+                ...state,
+                error: action.error
+            };
+
+        case TODO_UPDATE_SUCCESS:
+            return {
+                error: false,
+                todos: action.todos
+            };
+
+        case TODO_UPDATE_FAILURE:
+            return {
+                ...state,
+                error: action.error
             };
 
         default:
