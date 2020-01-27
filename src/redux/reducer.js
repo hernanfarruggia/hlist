@@ -54,7 +54,7 @@ const reducer = (state = initialState, action) => {
         case TODO_GET_FAILURE:
             return {
                 ...state,
-                error: action.error
+                error: action.error.message
             };
 
         case TODO_UPDATE_SUCCESS:

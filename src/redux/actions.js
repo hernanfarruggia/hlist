@@ -24,9 +24,15 @@ export function todos_get () {
         fetch(`${url}todos`, options)
             .then(res => {
                 return res.json()
-                    .then(res => res.data);
+                    .then(res => {
+                        if (res.error) {
+                            dispatch(todos_get_failure(res.error));
+                        } else {
+                            dispatch(todos_get_success(res.data));
+                        }
+                    })
+                    .catch(err => dispatch(todos_get_failure(err)));
             })
-            .then(todos => dispatch(todos_get_success(todos)))
             .catch(err => dispatch(todos_get_failure(err)));
     }
 }
@@ -38,10 +44,10 @@ function todos_get_success (todos) {
     };
 }
 
-function todos_get_failure (err) {
+function todos_get_failure (error) {
     return {
         type: TODO_GET_FAILURE,
-        err
+        error
     };
 }
 
@@ -75,10 +81,10 @@ function todo_add_success (todo) {
     };
 }
 
-function todo_add_failure (err) {
+function todo_add_failure (error) {
     return {
         type: TODO_ADD_FAILURE,
-        msg: err
+        error
     };
 }
 
@@ -102,9 +108,9 @@ function todos_delete_success (id) {
     };
 }
 
-function todos_delete_failure (err) {
+function todos_delete_failure (error) {
     return {
         type: TODO_DELETE_FAILURE,
-        msg: err
+        error
     };
 }
