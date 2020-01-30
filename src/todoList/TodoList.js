@@ -13,19 +13,30 @@ function TodoList (props) {
 
     const handleDone = (todo) => {
         todo.state = 'done';
-        props.handleDoneItem(todo);
+        props.handleUpdateTodo(todo);
+    }
+
+    const handleUndone = (todo) => {
+        todo.state = 'pending';
+        props.handleUpdateTodo(todo);
+    }
+
+    const getItemProps = (todo) => {
+        return {
+            className: todo.state === 'pending' ? 'item' : 'item-done'
+        }
     }
 
     const renderItems = (item, key) => {
         return (
-            <div className="item" key={ key }>
+            <div { ...getItemProps(item) } key={ key }>
                 <div className="item-text">{ item.text }</div>
                 <div className="item-action">
-                    <button
-                        className="button-tertiary"
-                        onClick={ () => handleDone(item) }>
-                        ok
-                    </button>
+                    {
+                        item.state === 'pending' ?
+                            renderDoneBtn(item) :
+                            renderUndoneBtn(item)
+                    }
                     &nbsp;
                     <button
                         className="button-secondary"
@@ -42,6 +53,26 @@ function TodoList (props) {
             <div className="empty">
                 Nothing to do! Try adding a new task!
             </div>
+        );
+    }
+
+    const renderDoneBtn = (todo) => {
+        return (
+            <button
+                className="button-tertiary"
+                onClick={ () => handleDone(todo) }>
+                ok
+            </button>
+        );
+    }
+
+    const renderUndoneBtn = (todo) => {
+        return (
+            <button
+                className="button-tertiary"
+                onClick={ () => handleUndone(todo) }>
+                !
+            </button>
         );
     }
 
