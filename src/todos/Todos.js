@@ -1,8 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import './todos.css';
-
 import TodoForm from '../todoForm';
 import TodoList from '../todoList';
 
@@ -32,28 +30,38 @@ class Todos extends React.Component {
     }
 
     render () {
-        console.log('render');
         return (
-            <div className="todos">
+            <div>
                 { 
                     this.props.error ?
                         this.renderError() :
                         null
                 }
-                <TodoForm
-                    handleNewItem={this.handleNewItem} />
+                <TodoForm handleNewItem={this.handleNewItem} />
 
-                <h3>Pending tasks</h3>
-                <TodoList
-                    todos={this.props.pending}
-                    handleDeleteItem={ this.handleDeleteItem }
-                    handleUpdateTodo={ this.handleUpdateTodo } />
+                <div className="container mt-5">
+                    <div className="row mb-5">
+                        <div className="col-12">
+                            <h3>Pending tasks</h3>
+                        </div>
+                    </div>
+                    <TodoList
+                        todos={this.props.pending}
+                        handleDeleteItem={ this.handleDeleteItem }
+                        handleUpdateTodo={ this.handleUpdateTodo } />
+                </div>
 
-                <h3>Complete tasks</h3>
-                <TodoList
-                    todos={this.props.done}
-                    handleDeleteItem={ this.handleDeleteItem }
-                    handleUpdateTodo={ this.handleUpdateTodo } />
+                <div className="container mt-5">
+                    <div className="row mb-5">
+                        <div className="col-12">
+                            <h3>Complete tasks</h3>
+                        </div>
+                    </div>
+                    <TodoList
+                        todos={this.props.done}
+                        handleDeleteItem={ this.handleDeleteItem }
+                        handleUpdateTodo={ this.handleUpdateTodo } />
+                </div>
             </div>
         );
     }

@@ -1,5 +1,4 @@
 import React from 'react';
-import './todoForm.css';
 
 class TodoForm extends React.Component {
 
@@ -44,20 +43,23 @@ class TodoForm extends React.Component {
 
     render() {
         return (
-            <div className="todo-form">
-                <input
-                    type="text"
-                    value={ this.state.value }
-                    onChange={ this.handleChange }
-                    onKeyPress={ this.handleKeyPress }
-                    placeholder="What you wanna do?"
-                    ref={ (input) => { this.inputTodo = input; } } />
-                <button
-                    className="button-primary"
-                    disabled={ this.state.btnDisabled }
-                    onClick={ this.handleClick } >
-                    +
-                </button>
+            <div class="container mt-5">
+                <form class="d-flex">
+                    <input
+                        className="form-control form-control-lg d-inline mr-3"
+                        onChange={ this.handleChange }
+                        onKeyPress={ this.handleKeyPress }
+                        placeholder="What you wanna do?"
+                        ref={ (input) => { this.inputTodo = input; } }
+                        type="text"
+                        value={ this.state.value } />
+                    <button
+                        className="btn btn-primary btn-lg d-inline"
+                        disabled={ this.state.btnDisabled }
+                        onClick={ this.handleClick } >
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </form>
             </div>
         );
     }

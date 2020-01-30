@@ -21,30 +21,35 @@ function TodoList (props) {
         props.handleUpdateTodo(todo);
     }
 
-    const getItemProps = (todo) => {
-        return {
-            className: todo.state === 'pending' ? 'item' : 'item-done'
-        }
+    const getTodoText = (todo) => {
+        let text = (<span>{ todo.text }</span>);
+
+        if (todo.state === 'done') text = (<span><del>{ todo.text }</del></span>);
+
+        return text
     }
 
     const renderItems = (item, key) => {
         return (
-            <div { ...getItemProps(item) } key={ key }>
-                <div className="item-text">{ item.text }</div>
-                <div className="item-action">
+            <li className="list-group-item d-flex align-items-center justify-content-between">
+                { getTodoText(item) }
+                <div>
                     {
                         item.state === 'pending' ?
                             renderDoneBtn(item) :
                             renderUndoneBtn(item)
                     }
-                    &nbsp;
                     <button
-                        className="button-secondary"
+                        className="btn btn-secondary btn-sm mr-2">
+                        <i className="fas fa-edit"></i>
+                    </button>
+                    <button
+                        className="btn btn-danger btn-sm"
                         onClick={ () => handleDelete(item.id) }>
-                        -
+                        <i className="fas fa-trash"></i>
                     </button>
                 </div>
-            </div>
+            </li>
         );
     }
 
@@ -59,9 +64,9 @@ function TodoList (props) {
     const renderDoneBtn = (todo) => {
         return (
             <button
-                className="button-tertiary"
+                className="btn btn-success btn-sm mr-2"
                 onClick={ () => handleDone(todo) }>
-                ok
+                <i className="fas fa-check"></i>
             </button>
         );
     }
@@ -69,20 +74,27 @@ function TodoList (props) {
     const renderUndoneBtn = (todo) => {
         return (
             <button
-                className="button-tertiary"
+                className="btn btn-warning btn-sm mr-2"
                 onClick={ () => handleUndone(todo) }>
-                !
+                <i className="fas fa-undo"></i>
             </button>
         );
     }
 
-    return (
-        <div className="todo-list">
-            { 
-                _.isEmpty(todos) ?
-                    renderEmtpyMessage() :
-                    todos.map(renderItems) 
-            }
+    return (        
+        <div className="row">
+            <div className="col-12">
+
+                { 
+                    _.isEmpty(todos) ?
+                        renderEmtpyMessage() :
+                        <ul className="list-group">
+                            { todos.map(renderItems) }
+                        </ul>
+                }
+                
+
+            </div>
         </div>
     );
 }
