@@ -53,3 +53,11 @@ body {
 .app .button-secondary:hover {
   background-color: #dd3939;
 }
+
+.app .button-tertiary {
+  background-color: #35a72a;
+}
+
+.app .button-tertiary:hover {
+  background-color: #2f9426;
+}
