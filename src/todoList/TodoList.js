@@ -11,11 +11,22 @@ function TodoList (props) {
         props.handleDeleteItem(id)
     }
 
+    const handleDone = (todo) => {
+        todo.state = 'done';
+        props.handleDoneItem(todo);
+    }
+
     const renderItems = (item, key) => {
         return (
             <div className="item" key={ key }>
                 <div className="item-text">{ item.text }</div>
                 <div className="item-action">
+                    <button
+                        className="button-tertiary"
+                        onClick={ () => handleDone(item) }>
+                        ok
+                    </button>
+                    &nbsp;
                     <button
                         className="button-secondary"
                         onClick={ () => handleDelete(item.id) }>

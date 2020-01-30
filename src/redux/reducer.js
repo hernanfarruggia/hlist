@@ -11,6 +11,8 @@ import {
 
 const initialState = {
     todos: [],
+    pending: [],
+    done: [],
     error: false
 };
 
@@ -20,9 +22,14 @@ const reducer = (state = initialState, action) => {
 
         case TODO_ADD_SUCCESS:
             return {
+                ...state,
                 error: false,
                 todos: [
                     ...state.todos,
+                    action.todo
+                ],
+                pending: [
+                    ...state.pending,
                     action.todo
                 ]
             };
@@ -36,7 +43,9 @@ const reducer = (state = initialState, action) => {
         case TODO_DELETE_SUCCESS:
             return {
                 error: false,
-                todos: state.todos.filter(todo => todo.id !== action.id)
+                todos: state.todos.filter(todo => todo.id !== action.id),
+                pending: state.pending.filter(todo => todo.id !== action.id),
+                done: state.done.filter(todo => todo.id !== action.id)
             };
 
         case TODO_DELETE_FAILURE:
@@ -48,7 +57,9 @@ const reducer = (state = initialState, action) => {
         case TODO_GET_SUCCESS:
             return {
                 error: false,
-                todos: action.todos
+                todos: action.todos,
+                pending: action.todos.filter(todo => todo.state === 'pending'),
+                done: action.todos.filter(todo => todo.state === 'done')
             };
 
         case TODO_GET_FAILURE:
@@ -60,7 +71,9 @@ const reducer = (state = initialState, action) => {
         case TODO_UPDATE_SUCCESS:
             return {
                 error: false,
-                todos: action.todos
+                todos: action.todos,
+                pending: action.todos.filter(todo => todo.state === 'pending'),
+                done: action.todos.filter(todo => todo.state === 'done')
             };
 
         case TODO_UPDATE_FAILURE:

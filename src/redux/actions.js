@@ -59,7 +59,7 @@ export function todo_add (text) {
             body: JSON.stringify({
                 todo: {
                     text,
-                    status: 'active'
+                    state: 'pending'
                 }
             })
         };
@@ -111,6 +111,44 @@ function todos_delete_success (id) {
 function todos_delete_failure (error) {
     return {
         type: TODO_DELETE_FAILURE,
+        error
+    };
+}
+
+export function todo_update (todo) {
+    return dispatch => {
+        const options = {
+            headers,
+            method: 'PUT',
+            body: JSON.stringify({ todo })
+        };
+
+        fetch(`${url}todos/${todo.id}`, options)
+            .then(res => {
+                return res.json()
+                    .then(res => {
+                        if (res.error) {
+                            dispatch(todo_update_failure(res.error));
+                        } else {
+                            dispatch(todo_update_success(res.data));
+                        }
+                    })
+                    .catch(err => dispatch(todo_update_failure(err)));
+            })
+            .catch(err => dispatch(todo_update_failure(err)));
+    }
+}
+
+function todo_update_success (todos) {
+    return {
+        type: TODO_UPDATE_SUCCESS,
+        todos
+    };
+}
+
+function todo_update_failure (error) {
+    return {
+        type: TODO_UPDATE_FAILURE,
         error
     };
 }
