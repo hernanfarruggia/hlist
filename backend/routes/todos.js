@@ -4,12 +4,12 @@ const todos = [
     {
         id: 0,
         text: 'Clean the bathroom',
-        state: 'active'
+        state: 'pending'
     },
     {
         id: 1,
         text: 'Do groceries',
-        state: 'active'
+        state: 'pending'
     }
 ];
 
@@ -57,21 +57,23 @@ module.exports.set = (app) => {
     });
 
     app.put('/todos/:id', (req, res) => {
-        if (!req.params.id || !req.params.todo) {
+        if (!req.params.id || !req.body.todo) {
             response.error = ERRORS.MISSING_PARAMS;
             response.status = 400;
         } else {
-            const newTodo = req.params.todo,
-                oldTodo = todos.find({ id: req.params.id });
-    
-            if (!oldTodo) {
+
+            const newTodo = req.body.todo,
+                todoIndex = todos.findIndex(todo => todo.id === parseInt(req.params.id));
+
+            if (todoIndex === -1) {
                 response.error = ERRORS.NOT_FOUND + ` ID: ${req.params.id}`;
                 response.status = 404;
             } else {
-                oldTodo.text = newTodo.text;
-                oldTodo.status = newTodo.status;
-        
-                response.data = oldTodo;
+
+                todos[todoIndex].text = newTodo.text;
+                todos[todoIndex].state = newTodo.state;
+
+                response.data = todos;
                 response.status = 200;
             }
         }
