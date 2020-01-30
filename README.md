@@ -8,12 +8,12 @@ A work in progress todo app but with a huge ambition :)
 - Delete TODO by pressing - button
 - Load TODO's in different sections depending on their state ['pending' || 'done']
 - UnDone complete TODO's
+- CSS Improvements (Bootstrap implemented)
 
 ### Coming soon features:
 
 - Integration with MongoDB
 - Better error handling
-- CSS Improvements (Probably Bootstrap or other CSS framework, haven't checked yet the alternatives...)
 - Update TODO content, with the ability of adding more information to it as description or tags (?)
 - Multi user to allow login and private TODO lists
 - Some other stuffs I didn't have the time yet to decide... :D
