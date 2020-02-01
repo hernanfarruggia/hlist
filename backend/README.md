@@ -9,9 +9,9 @@
 {
     data: [
         {
-            id: 1,
-            text: 'Dummy text',
-            status: 'active'
+            _id: ObjectId,
+            text: String,
+            status: String
         },
         {...}
     ],
@@ -24,7 +24,9 @@
 ```javascript
 {
     data: null,
-    error: 'Error message',
+    error: {
+        message: String
+    },
     status: 404
 }
 ```
@@ -35,9 +37,9 @@
 ```javascript
 {
     data: {
-        id: 1,
-        text: 'Dummy text',
-        status: 'active'
+        _id: ObjectId,
+        text: String,
+        status: String
     },
     error: null,
     status: 200
@@ -48,7 +50,9 @@
 ```javascript
 {
     data: null,
-    error: 'Error message',
+    error: {
+        message: String
+    },
     status: 404
 }
 ```
@@ -56,11 +60,13 @@
 ### POST - /todos
 
 **Return**
+Returns the created object.
 ```javascript
 {
     data: {
-        text: 'Dummy text',
-        status: 'active'
+            _id: ObjectId,
+            text: String,
+            status: String
     },
     error: null,
     status: 200
@@ -70,12 +76,13 @@
 ### PUT - /todos/:id
 
 **Return**
+Returns the updated object
 ```javascript
 {
     data: {
-        id: 1,
-        text: 'Dummy text',
-        status: 'active'
+        _id: ObjectId,
+        text: String,
+        status: String
     },
     error: null,
     status: 204
@@ -86,7 +93,9 @@
 ```javascript
 {
     data: null,
-    error: 'Error message',
+    error: {
+        message: String
+    },
     status: 400 || 404
 }
 ```
@@ -106,7 +115,9 @@
 ```javascript
 {
     data: null,
-    error: 'Error message',
+    error: {
+        message: String
+    },
     status: 400 || 404
 }
 ```
