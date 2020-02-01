@@ -1,102 +1,178 @@
+const TodosModel = require('../schemas/Todos');
 const ERRORS = require('../constants/errors');
 
-const todos = [
-    {
-        id: 0,
-        text: 'Clean the bathroom',
-        state: 'pending'
-    },
-    {
-        id: 1,
-        text: 'Do groceries',
-        state: 'pending'
-    }
-];
-
-const response = {
-    data: null,
-    error: null,
-    status: null
-};
+const responseObj = () => {
+    return {
+        data: null,
+        error: null,
+        status: null
+    };
+}
 
 module.exports.set = (app) => {
+
     app.get('/todos', (req, res) => {
-        response.data = todos;
-        response.status = 200;
-        res.status(response.status).send(response);
-    });
+        const response = responseObj();
 
-    app.get('/todos/:id', (req, res) => {
-        if (!req.params.id) {
-            response.error = ERRORS.MISSING_PARAMS;
-            response.status = 400;
-        } else {
-            const todo = todos.find((todo) => todo.id === parseInt(req.params.id));
-            
-            if (!todo) {
-                response.error = ERRORS.NOT_FOUND + ` ID: ${req.params.id}`;
-                response.status = 404;
-            } else {
-                response.data = todo;
-                response.status = 200;
-            }
-        }
-
-        res.status(response.status).send(response);
-    });
-
-    app.post('/todos', (req, res) => {
-        const todo = Object.assign({ id: todos.length }, req.body.todo);
-
-        todos.push(todo)
-
-        response.data = todo;
-        response.status = 200;
-
-        res.status(response.status).send(response);
-    });
-
-    app.put('/todos/:id', (req, res) => {
-        if (!req.params.id || !req.body.todo) {
-            response.error = ERRORS.MISSING_PARAMS;
-            response.status = 400;
-        } else {
-
-            const newTodo = req.body.todo,
-                todoIndex = todos.findIndex(todo => todo.id === parseInt(req.params.id));
-
-            if (todoIndex === -1) {
-                response.error = ERRORS.NOT_FOUND + ` ID: ${req.params.id}`;
-                response.status = 404;
-            } else {
-
-                todos[todoIndex].text = newTodo.text;
-                todos[todoIndex].state = newTodo.state;
+        const execute = async () => {
+            try {
+                const todos = await TodosModel.find({});
 
                 response.data = todos;
                 response.status = 200;
+
+                res.status(response.status).send(response);
+            }
+            catch (error) {
+                response.error = error;
+                response.status = 400;
+
+                res.status(response.status).send(response);
             }
         }
 
-        res.status(response.status).send(response);
+        execute();
+    });
+
+    app.get('/todos/:id', (req, res) => {
+        const response = responseObj();
+
+        if (!req.params.id) {
+            response.error = {
+                message: ERRORS.MISSING_PARAMS
+            };
+            response.status = 400;
+
+            return res.status(response.status).send(response);
+        }
+
+        const execute = async () => {
+            try {
+                const todo = await TodosModel.findById(req.params.id);
+
+                response.data = todo;
+                response.status = 200;
+
+                res.status(response.status).send(response);
+            }
+            catch (error) {
+                response.error = error;
+                response.status = 400;
+
+                res.status(response.status).send(response);
+            }
+        }
+
+        execute();
+    });
+
+    app.post('/todos', (req, res) => {
+        const response = responseObj();
+
+        if (!req.body || !req.body.text) {
+            response.error = {
+                message: ERRORS.MISSING_PARAMS
+            };
+            response.status = 400;
+
+            return res.status(response.status).send(response);
+
+        }
+
+        const execute = async () => {
+            try {
+                const newTodo = new TodosModel({
+                        text: req.body.text,
+                        state: 'pending'
+                    });
+    
+                const todo = await newTodo.save();
+
+                response.data = todo;
+                response.status = 200;
+
+                res.status(response.status).send(response);
+            }
+            catch (error) {
+                response.error = error;
+                response.status = 400;
+
+                res.status(response.status).send(response);
+            }
+        }
+
+        execute();
+    });
+
+    app.put('/todos/:id', (req, res) => {
+        const response = responseObj();
+
+        if (!req.params.id || !req.body || !req.body.text || !req.body.state) {
+            response.error = {
+                message: ERRORS.MISSING_PARAMS
+            };
+            response.status = 400;
+
+            return res.status(response.status).send(response);
+
+        }
+
+        const execute = async () => {
+            try {
+                const todo = await TodosModel.findByIdAndUpdate(
+                    req.params.id,
+                    {
+                        text: req.body.text,
+                        state: req.body.state
+                    },
+                    { new: true }
+                );
+
+                response.data = todo;
+                response.status = 200;
+
+                res.status(response.status).send(response);
+            }
+            catch (error) {
+                response.error = error;
+                response.status = 400;
+
+                res.status(response.status).send(response);
+            }
+        }
+
+        execute();
     });
 
     app.delete('/todos/:id', (req, res) => {
+        const response = responseObj();
+
         if (!req.params.id) {
-            response.error = ERRORS.MISSING_PARAMS;
+            response.error = {
+                message: ERRORS.MISSING_PARAMS
+            };
             response.status = 400;
-        } else {
-            const todoIndex = todos.findIndex(todo => todo.id === parseInt(req.params.id));
-    
-            if (!todoIndex) {
-                response.error = ERRORS.NOT_FOUND + ` ID: ${req.params.id}`;
-                response.status = 404;
-            } else {
-                todos.splice(todoIndex, 1);
-                response.status = 204;
+
+            return res.status(response.status).send(response);
+        }
+
+        const execute = async () => {
+            try {
+                const todo = await TodosModel.findByIdAndDelete(req.params.id);
+
+                response.data = todo;
+                response.status = 200;
+
+                res.status(response.status).send(response);
+            }
+            catch (error) {
+                response.error = error;
+                response.status = 400;
+
+                res.status(response.status).send(response);
             }
         }
 
-        res.status(response.status).send(response);
+        execute();
     });
 }

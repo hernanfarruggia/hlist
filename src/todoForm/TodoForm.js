@@ -43,8 +43,8 @@ class TodoForm extends React.Component {
 
     render() {
         return (
-            <div class="container mt-5">
-                <form class="d-flex">
+            <div className="container mt-5">
+                <form className="d-flex">
                     <input
                         className="form-control form-control-lg d-inline mr-3"
                         onChange={ this.handleChange }
@@ -57,7 +57,7 @@ class TodoForm extends React.Component {
                         className="btn btn-primary btn-lg d-inline"
                         disabled={ this.state.btnDisabled }
                         onClick={ this.handleClick } >
-                        <i class="fas fa-plus"></i>
+                        <i className="fas fa-plus"></i>
                     </button>
                 </form>
             </div>
