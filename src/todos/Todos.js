@@ -67,7 +67,6 @@ class Todos extends React.Component {
     }
 
     renderError () {
-        console.log('renderError');
         return (
             <div className="error">
                 { this.props.error }

@@ -29,9 +29,9 @@ function TodoList (props) {
         return text
     }
 
-    const renderItems = (item, key) => {
+    const renderItems = (item) => {
         return (
-            <li className="list-group-item d-flex align-items-center justify-content-between">
+            <li className="list-group-item d-flex align-items-center justify-content-between" key={ item._id }>
                 { getTodoText(item) }
                 <div>
                     {
@@ -45,7 +45,7 @@ function TodoList (props) {
                     </button>
                     <button
                         className="btn btn-danger btn-sm"
-                        onClick={ () => handleDelete(item.id) }>
+                        onClick={ () => handleDelete(item._id) }>
                         <i className="fas fa-trash"></i>
                     </button>
                 </div>
@@ -84,7 +84,6 @@ function TodoList (props) {
     return (        
         <div className="row">
             <div className="col-12">
-
                 { 
                     _.isEmpty(todos) ?
                         renderEmtpyMessage() :
@@ -92,8 +91,6 @@ function TodoList (props) {
                             { todos.map(renderItems) }
                         </ul>
                 }
-                
-
             </div>
         </div>
     );
