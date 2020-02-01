@@ -7,12 +7,11 @@ export const TODO_GET_SUCCESS = 'TODO_GET_SUCCESS';
 export const TODO_UPDATE_SUCCESS = 'TODO_UPDATE_SUCCESS';
 export const TODO_UPDATE_FAILURE = 'TODO_UPDATE_FAILURE';
 
-const url = 'http://localhost:4000/';
+const BASE_URL = 'http://localhost:4000/todos';
 const headers = {
     'Accept': 'application/json',
     'Content-Type': 'application/json'
 };
-
 
 export function todos_get () {
     return dispatch => {
@@ -21,12 +20,12 @@ export function todos_get () {
             method: 'GET'
         };
 
-        fetch(`${url}todos`, options)
+        fetch(BASE_URL, options)
             .then(res => {
                 return res.json()
                     .then(res => {
                         if (res.error) {
-                            dispatch(todos_get_failure(res.error));
+                            dispatch(todos_get_failure(res.error.message));
                         } else {
                             dispatch(todos_get_success(res.data));
                         }
@@ -56,20 +55,21 @@ export function todo_add (text) {
         const options = {
             headers,
             method: 'POST',
-            body: JSON.stringify({
-                todo: {
-                    text,
-                    state: 'pending'
-                }
-            })
+            body: JSON.stringify({ text })
         };
         
-        fetch(`${url}todos`, options)
+        fetch(BASE_URL, options)
             .then(res => {
                 return res.json()
-                    .then(res => res.data);
+                    .then(res => {
+                        if (res.error) {
+                            dispatch(todo_add_failure(res.error.message));
+                        } else {
+                            dispatch(todo_add_success(res.data));
+                        }
+                    })
+                    .catch(err => dispatch(todo_add_failure(err)));
             })
-            .then(todo => dispatch(todo_add_success(todo)))
             .catch(err => dispatch(todo_add_failure(err)));
     }
 }
@@ -95,20 +95,30 @@ export function todo_delete (id) {
             method: 'DELETE'
         };
 
-        fetch(`${url}todos/${id}`, options)
-            .then(() => dispatch(todos_delete_success(id)))
-            .catch(err => dispatch(todos_delete_failure(err)));
+        fetch(`${BASE_URL}/${id}`, options)
+            .then(res => {
+                return res.json()
+                    .then(res => {
+                        if (res.error) {
+                            dispatch(todo_delete_failure(res.error.message));
+                        } else {
+                            dispatch(todo_delete_success(id));
+                        }
+                    })
+                    .catch(err => dispatch(todo_delete_failure(err)));
+            })
+            .catch(err => dispatch(todo_delete_failure(err)));
     }
 }
 
-function todos_delete_success (id) {
+function todo_delete_success (id) {
     return {
         type: TODO_DELETE_SUCCESS,
         id
     };
 }
 
-function todos_delete_failure (error) {
+function todo_delete_failure (error) {
     return {
         type: TODO_DELETE_FAILURE,
         error
@@ -120,15 +130,15 @@ export function todo_update (todo) {
         const options = {
             headers,
             method: 'PUT',
-            body: JSON.stringify({ todo })
+            body: JSON.stringify(todo)
         };
 
-        fetch(`${url}todos/${todo.id}`, options)
+        fetch(`${BASE_URL}/${todo._id}`, options)
             .then(res => {
                 return res.json()
                     .then(res => {
                         if (res.error) {
-                            dispatch(todo_update_failure(res.error));
+                            dispatch(todo_update_failure(res.error.message));
                         } else {
                             dispatch(todo_update_success(res.data));
                         }
@@ -139,10 +149,10 @@ export function todo_update (todo) {
     }
 }
 
-function todo_update_success (todos) {
+function todo_update_success (todo) {
     return {
         type: TODO_UPDATE_SUCCESS,
-        todos
+        todo
     };
 }
 

@@ -43,9 +43,9 @@ const reducer = (state = initialState, action) => {
         case TODO_DELETE_SUCCESS:
             return {
                 error: false,
-                todos: state.todos.filter(todo => todo.id !== action.id),
-                pending: state.pending.filter(todo => todo.id !== action.id),
-                done: state.done.filter(todo => todo.id !== action.id)
+                todos: state.todos.filter(todo => todo._id !== action.id),
+                pending: state.pending.filter(todo => todo._id !== action.id),
+                done: state.done.filter(todo => todo._id !== action.id)
             };
 
         case TODO_DELETE_FAILURE:
@@ -69,11 +69,18 @@ const reducer = (state = initialState, action) => {
             };
 
         case TODO_UPDATE_SUCCESS:
+            // Replace prev object with new one
+            const todos = state.todos.map(todo => {
+                return todo._id === action.todo._id ?
+                    action.todo :
+                    todo;
+            });
+            
             return {
                 error: false,
-                todos: action.todos,
-                pending: action.todos.filter(todo => todo.state === 'pending'),
-                done: action.todos.filter(todo => todo.state === 'done')
+                todos: todos,
+                pending: todos.filter(todo => todo.state === 'pending'),
+                done: todos.filter(todo => todo.state === 'done')
             };
 
         case TODO_UPDATE_FAILURE:
