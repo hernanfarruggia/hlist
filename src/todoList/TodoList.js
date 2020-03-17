@@ -21,18 +21,18 @@ function TodoList (props) {
         props.handleUpdateTodo(todo);
     }
 
-    const getTodoText = (todo) => {
-        let text = (<span>{ todo.text }</span>);
+    const getTodoName = (todo) => {
+        let name = (<span>{ todo.name }</span>);
 
-        if (todo.state === 'done') text = (<span><del>{ todo.text }</del></span>);
+        if (todo.state === 'done') name = (<span><del>{ todo.name }</del></span>);
 
-        return text
+        return name
     }
 
     const renderItems = (item) => {
         return (
             <li className="list-group-item d-flex align-items-center justify-content-between" key={ item._id }>
-                { getTodoText(item) }
+                { getTodoName(item) }
                 <div>
                     {
                         item.state === 'pending' ?

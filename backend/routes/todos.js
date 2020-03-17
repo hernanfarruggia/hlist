@@ -69,7 +69,7 @@ module.exports.set = (app) => {
     app.post('/todos', (req, res) => {
         const response = responseObj();
 
-        if (!req.body || !req.body.text) {
+        if (!req.body || !req.body.name) {
             response.error = {
                 message: ERRORS.MISSING_PARAMS
             };
@@ -82,7 +82,8 @@ module.exports.set = (app) => {
         const execute = async () => {
             try {
                 const newTodo = new TodosModel({
-                        text: req.body.text,
+                        name: req.body.name,
+                        createdDate: new Date(),
                         state: 'pending'
                     });
     
@@ -107,7 +108,7 @@ module.exports.set = (app) => {
     app.put('/todos/:id', (req, res) => {
         const response = responseObj();
 
-        if (!req.params.id || !req.body || !req.body.text || !req.body.state) {
+        if (!req.params.id || !req.body || !req.body.name || !req.body.state) {
             response.error = {
                 message: ERRORS.MISSING_PARAMS
             };
@@ -122,7 +123,8 @@ module.exports.set = (app) => {
                 const todo = await TodosModel.findByIdAndUpdate(
                     req.params.id,
                     {
-                        text: req.body.text,
+                        name: req.body.name,
+                        updatedDate: new Date(),
                         state: req.body.state
                     },
                     { new: true }

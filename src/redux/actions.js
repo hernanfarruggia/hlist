@@ -50,12 +50,12 @@ function todos_get_failure (error) {
     };
 }
 
-export function todo_add (text) {
+export function todo_add (name) {
     return dispatch => {
         const options = {
             headers,
             method: 'POST',
-            body: JSON.stringify({ text })
+            body: JSON.stringify({ name })
         };
         
         fetch(BASE_URL, options)
