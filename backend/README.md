@@ -1,5 +1,14 @@
 # hList - Todo App API
 
+Backend for Todo App
+
+## Starting the server
+
+```bash
+$ service mongod start
+$ nodemon index.js
+```
+
 ## Endpoints
 
 ### GET - /todos
