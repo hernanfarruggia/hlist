@@ -123,6 +123,7 @@ module.exports.set = (app) => {
                 const todo = await TodosModel.findByIdAndUpdate(
                     req.params.id,
                     {
+                        description: req.body.description,
                         name: req.body.name,
                         updatedDate: new Date(),
                         state: req.body.state
