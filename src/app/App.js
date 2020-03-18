@@ -2,7 +2,7 @@ import React from 'react';
 
 import Todos from '../todos';
 
-function App () {
+const App  = () => {
 
     return(
         <div className="container mt-5 mb-5">

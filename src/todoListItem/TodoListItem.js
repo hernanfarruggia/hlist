@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 
-function TodoListItem (props) {
+const TodoListItem = (props) => {
 
     const item = props.item;
     

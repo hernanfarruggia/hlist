@@ -3,7 +3,7 @@ import _ from 'lodash';
 import TodoListItem from '../todoListItem';
 import './todoList.css';
 
-function TodoList (props) {
+const TodoList = (props) => {
 
     // This clones the todos array and reverse the order to always display the new on top 
     const todos = props.todos.slice(0, props.todos.length).reverse();

@@ -1,68 +1,57 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
-class TodoForm extends React.Component {
+const TodoForm = (props)  => {
 
-    constructor(props) {
-        super(props);
+    const [btnDisabled, setBtnDisabled] = useState(true);
+    const [todoValue, setTodoValue] = useState('');
+    let inputTodo;
 
-        this.state = {
-            btnDisabled: true,
-            value: ''
-        };
+    useEffect(() => {
+        inputTodo.focus();
+    });
+
+    const handleChange = (e) => {
+        setBtnDisabled(e.target.value !== '' ? false : true);
+        setTodoValue(e.target.value);
     }
 
-    componentDidMount(){
-        this.inputTodo.focus();
-    }
-
-    handleChange = (e) => {
-        this.setState({
-            btnDisabled: e.target.value !== '' ? false : true,
-            value: e.target.value
-        });
-    }
-
-    handleKeyPress = (e) => {
+    const handleKeyPress = (e) => {
         if (e.charCode === 13) {
-            this.handleClick();
+            handleClick();
         }
     }
 
-    handleClick = () => {
-        this.props.handleNewItem(this.state.value);
-        this.clearItem();
-        this.inputTodo.focus();
+    const handleClick = () => {
+        props.handleNewItem(todoValue);
+        clearItem();
+        inputTodo.focus();
     }
 
-    clearItem = () => {
-        this.setState({
-            btnDisabled: true,
-            value: ''
-        });
+    const clearItem = () => {
+        setBtnDisabled(true);
+        setTodoValue('');
     }
 
-    render() {
-        return (
-            <div className="container mt-5">
-                <form className="d-flex">
-                    <input
-                        className="form-control form-control-lg d-inline mr-3"
-                        onChange={ this.handleChange }
-                        onKeyPress={ this.handleKeyPress }
-                        placeholder="What you wanna do?"
-                        ref={ (input) => { this.inputTodo = input; } }
-                        type="text"
-                        value={ this.state.value } />
-                    <button
-                        className="btn btn-primary btn-lg d-inline"
-                        disabled={ this.state.btnDisabled }
-                        onClick={ this.handleClick } >
-                        <i className="fas fa-plus"></i>
-                    </button>
-                </form>
-            </div>
-        );
-    }
+    return (
+        <div className="container mt-5">
+            <form className="d-flex">
+                <input
+                    className="form-control form-control-lg d-inline mr-3"
+                    onChange={ handleChange }
+                    onKeyPress={ handleKeyPress }
+                    placeholder="What you wanna do?"
+                    ref={ (input) => { inputTodo = input; } }
+                    type="text"
+                    value={ todoValue } />
+                <button
+                    className="btn btn-primary btn-lg d-inline"
+                    disabled={ btnDisabled }
+                    onClick={ handleClick } >
+                    <i className="fas fa-plus"></i>
+                </button>
+            </form>
+        </div>
+    );
 }
 
 export default TodoForm;
