@@ -26,6 +26,7 @@ const TodoList = (props) => {
                             {
                                 todos.map(item => {
                                     return <TodoListItem
+                                        key={item._id}
                                         handleDeleteTodo={props.handleDeleteTodo}
                                         handleUpdateTodo={props.handleUpdateTodo}
                                         item={item} />

@@ -9,7 +9,7 @@ const TodoListItem = (props) => {
     const [isEditMode, toggleEditMode] = useState(false);
 
     const handleDelete = (id) => {
-        props.handleDeleteItem(id)
+        props.handleDeleteTodo(id)
     }
 
     const handleDone = (todo) => {

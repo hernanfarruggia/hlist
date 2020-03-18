@@ -21,7 +21,7 @@ class Todos extends React.Component {
         this.props.todoAdd(newItem);
     }
 
-    handleDeleteItem = (id) => {
+    handleDeleteTodo = (id) => {
         this.props.todoDelete(id);
     }
 
@@ -47,7 +47,7 @@ class Todos extends React.Component {
                     </div>
                     <TodoList
                         todos={this.props.pending}
-                        handleDeleteItem={ this.handleDeleteItem }
+                        handleDeleteTodo={ this.handleDeleteTodo }
                         handleUpdateTodo={ this.handleUpdateTodo } />
                 </div>
 
@@ -59,7 +59,7 @@ class Todos extends React.Component {
                     </div>
                     <TodoList
                         todos={this.props.done}
-                        handleDeleteItem={ this.handleDeleteItem }
+                        handleDeleteTodo={ this.handleDeleteTodo }
                         handleUpdateTodo={ this.handleUpdateTodo } />
                 </div>
             </div>
