@@ -1,5 +1,5 @@
-import React from 'react';
-import { connect } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import TodoForm from '../todoForm';
 import TodoList from '../todoList';
@@ -11,81 +11,69 @@ import {
     todo_update
 } from '../redux/actions';
 
-class Todos extends React.Component {
+const Todos = () => {
 
-    componentDidMount () {
-        this.props.todosGet()
+    const todosDone = useSelector(state => state.done);
+    const todosPending = useSelector(state => state.pending);
+    const error = useSelector(state => state.error);
+
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(todos_get())
+    }, [dispatch]);
+
+    const handleNewItem = newItem => {
+        dispatch(todo_add(newItem));
     }
 
-    handleNewItem = (newItem) => {
-        this.props.todoAdd(newItem);
+    const handleDeleteTodo = id => {
+        dispatch(todo_delete(id));
     }
 
-    handleDeleteTodo = (id) => {
-        this.props.todoDelete(id);
+    const handleUpdateTodo = todo => {
+        dispatch(todo_update(todo));
     }
 
-    handleUpdateTodo = (todo) => {
-        this.props.todoUpdate(todo);
-    }
-
-    render () {
-        return (
-            <div>
-                { 
-                    this.props.error ?
-                        this.renderError() :
-                        null
-                }
-                <TodoForm handleNewItem={this.handleNewItem} />
-
-                <div className="container mt-5">
-                    <div className="row mb-5">
-                        <div className="col-12">
-                            <h3>Pending tasks</h3>
-                        </div>
-                    </div>
-                    <TodoList
-                        todos={this.props.pending}
-                        handleDeleteTodo={ this.handleDeleteTodo }
-                        handleUpdateTodo={ this.handleUpdateTodo } />
-                </div>
-
-                <div className="container mt-5">
-                    <div className="row mb-5">
-                        <div className="col-12">
-                            <h3>Complete tasks</h3>
-                        </div>
-                    </div>
-                    <TodoList
-                        todos={this.props.done}
-                        handleDeleteTodo={ this.handleDeleteTodo }
-                        handleUpdateTodo={ this.handleUpdateTodo } />
-                </div>
-            </div>
-        );
-    }
-
-    renderError () {
+    const renderError = () => {
         return (
             <div className="error">
-                { this.props.error }
+                { error }
             </div>
         );
     }
+
+    return (
+        <div>
+            { error ? renderError() : null }
+
+            <TodoForm handleNewItem={ handleNewItem } />
+
+            <div className="container mt-5">
+                <div className="row mb-5">
+                    <div className="col-12">
+                        <h3>Pending tasks</h3>
+                    </div>
+                </div>
+                <TodoList
+                    todos={ todosPending }
+                    handleDeleteTodo={ handleDeleteTodo }
+                    handleUpdateTodo={ handleUpdateTodo } />
+            </div>
+
+            <div className="container mt-5">
+                <div className="row mb-5">
+                    <div className="col-12">
+                        <h3>Complete tasks</h3>
+                    </div>
+                </div>
+                <TodoList
+                    todos={ todosDone }
+                    handleDeleteTodo={ handleDeleteTodo }
+                    handleUpdateTodo={ handleUpdateTodo } />
+            </div>
+        </div>
+    );
 }
 
-const mapStateToProps = (state) => {
-    return state;
-}
-
-const mapDispatchToProps = (dispatch) => {
-    return {
-        todoAdd: (text) => dispatch(todo_add(text)),
-        todoDelete: (id) => dispatch(todo_delete(id)),
-        todosGet: () => dispatch(todos_get()),
-        todoUpdate: (todo) => dispatch(todo_update(todo))
-    };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Todos);
+export default Todos;
