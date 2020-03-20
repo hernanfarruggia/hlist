@@ -3,32 +3,32 @@ import React, {useState} from 'react';
 const TodoListItem = (props) => {
 
     const item = props.item;
-    
-    const [todoDescription, setTodoDescription] = useState(item.description);
+
+    const [todoDescription, setTodoDescription] = useState(item.description || '');
     const [showDescription, toggleDescription] = useState(false);
     const [isEditMode, toggleEditMode] = useState(false);
 
-    const handleDelete = (id) => {
+    const handleDelete = id => {
         props.handleDeleteTodo(id)
     }
 
-    const handleDone = (todo) => {
+    const handleDone = todo => {
         todo.state = 'done';
         props.handleUpdateTodo(todo);
     }
 
-    const handleUndone = (todo) => {
+    const handleUndone = todo => {
         todo.state = 'pending';
         props.handleUpdateTodo(todo);
     }
 
-    const handleUpdate = (todo) => {
+    const handleUpdate = todo => {
         todo.description = todoDescription;
         props.handleUpdateTodo(todo);
         toggleEditMode(!isEditMode);
     }
 
-    const getTodoName = (todo) => {
+    const getTodoName = todo => {
         let name = (<span>{ todo.name }</span>);
 
         if (todo.state === 'done') name = (<span><del>{ todo.name }</del></span>);
@@ -36,7 +36,7 @@ const TodoListItem = (props) => {
         return name
     }
 
-    const renderDoneBtn = (todo) => {
+    const renderDoneBtn = todo => {
         return (
             <button
                 className="btn btn-success btn-sm mr-2"
@@ -46,7 +46,7 @@ const TodoListItem = (props) => {
         );
     }
 
-    const renderUndoneBtn = (todo) => {
+    const renderUndoneBtn = todo => {
         return (
             <button
                 className="btn btn-warning btn-sm mr-2"

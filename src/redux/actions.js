@@ -13,7 +13,7 @@ const headers = {
     'Content-Type': 'application/json'
 };
 
-export function todos_get () {
+export const todos_get = () => {
     return dispatch => {
         const options = {
             headers,
@@ -36,21 +36,21 @@ export function todos_get () {
     }
 }
 
-function todos_get_success (todos) {
+const todos_get_success = todos => {
     return {
         type: TODO_GET_SUCCESS,
         todos
     };
 }
 
-function todos_get_failure (error) {
+const todos_get_failure = error => {
     return {
         type: TODO_GET_FAILURE,
         error
     };
 }
 
-export function todo_add (name) {
+export const todo_add = name => {
     return dispatch => {
         const options = {
             headers,
@@ -74,21 +74,21 @@ export function todo_add (name) {
     }
 }
 
-function todo_add_success (todo) {
+const todo_add_success = todo => {
     return {
         type: TODO_ADD_SUCCESS,
         todo
     };
 }
 
-function todo_add_failure (error) {
+const todo_add_failure = error => {
     return {
         type: TODO_ADD_FAILURE,
         error
     };
 }
 
-export function todo_delete (id) {
+export const todo_delete = id => {
     return dispatch => {
         const options = {
             headers,
@@ -111,21 +111,21 @@ export function todo_delete (id) {
     }
 }
 
-function todo_delete_success (id) {
+const todo_delete_success = id => {
     return {
         type: TODO_DELETE_SUCCESS,
         id
     };
 }
 
-function todo_delete_failure (error) {
+const todo_delete_failure = error => {
     return {
         type: TODO_DELETE_FAILURE,
         error
     };
 }
 
-export function todo_update (todo) {
+export const todo_update = todo => {
     return dispatch => {
         const options = {
             headers,
@@ -149,14 +149,14 @@ export function todo_update (todo) {
     }
 }
 
-function todo_update_success (todo) {
+const todo_update_success = todo => {
     return {
         type: TODO_UPDATE_SUCCESS,
         todo
     };
 }
 
-function todo_update_failure (error) {
+const todo_update_failure = error => {
     return {
         type: TODO_UPDATE_FAILURE,
         error

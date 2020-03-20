@@ -10,12 +10,12 @@ const TodoForm = (props)  => {
         inputTodo.focus();
     });
 
-    const handleChange = (e) => {
+    const handleChange = e => {
         setBtnDisabled(e.target.value !== '' ? false : true);
         setTodoValue(e.target.value);
     }
 
-    const handleKeyPress = (e) => {
+    const handleKeyPress = e => {
         if (e.charCode === 13) {
             handleClick();
         }
