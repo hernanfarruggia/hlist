@@ -14,25 +14,25 @@ const headers = {
 };
 
 export const todos_get = () => {
-    return dispatch => {
+    return async dispatch => {
         const options = {
             headers,
             method: 'GET'
         };
 
-        fetch(BASE_URL, options)
-            .then(res => {
-                return res.json()
-                    .then(res => {
-                        if (res.error) {
-                            dispatch(todos_get_failure(res.error.message));
-                        } else {
-                            dispatch(todos_get_success(res.data));
-                        }
-                    })
-                    .catch(err => dispatch(todos_get_failure(err)));
-            })
-            .catch(err => dispatch(todos_get_failure(err)));
+        try {
+            let res = await fetch(BASE_URL, options);
+            let data = await res.json();
+
+            if (data.error) {
+                dispatch(todos_get_failure(data.error.message));
+            } else {
+                dispatch(todos_get_success(data.data));
+            }
+        }
+        catch (err) {
+            dispatch(todos_get_failure(err));
+        }
     }
 }
 
@@ -51,26 +51,26 @@ const todos_get_failure = error => {
 }
 
 export const todo_add = name => {
-    return dispatch => {
+    return async dispatch => {
         const options = {
             headers,
             method: 'POST',
             body: JSON.stringify({ name })
         };
-        
-        fetch(BASE_URL, options)
-            .then(res => {
-                return res.json()
-                    .then(res => {
-                        if (res.error) {
-                            dispatch(todo_add_failure(res.error.message));
-                        } else {
-                            dispatch(todo_add_success(res.data));
-                        }
-                    })
-                    .catch(err => dispatch(todo_add_failure(err)));
-            })
-            .catch(err => dispatch(todo_add_failure(err)));
+
+        try {
+            let res = await fetch(BASE_URL, options);
+            let data = await res.json();
+
+            if (data.error) {
+                dispatch(todo_add_failure(data.error.message));
+            } else {
+                dispatch(todo_add_success(data.data));
+            }
+        }
+        catch (err) {
+            dispatch(todo_add_failure(err));
+        }
     }
 }
 
@@ -89,25 +89,25 @@ const todo_add_failure = error => {
 }
 
 export const todo_delete = id => {
-    return dispatch => {
+    return async dispatch => {
         const options = {
             headers,
             method: 'DELETE'
         };
 
-        fetch(`${BASE_URL}/${id}`, options)
-            .then(res => {
-                return res.json()
-                    .then(res => {
-                        if (res.error) {
-                            dispatch(todo_delete_failure(res.error.message));
-                        } else {
-                            dispatch(todo_delete_success(id));
-                        }
-                    })
-                    .catch(err => dispatch(todo_delete_failure(err)));
-            })
-            .catch(err => dispatch(todo_delete_failure(err)));
+        try {
+            let res = await fetch(`${BASE_URL}/${id}`, options);
+            let data = await res.json();
+
+            if (data.error) {
+                dispatch(todo_delete_failure(data.error.message));
+            } else {
+                dispatch(todo_delete_success(id));
+            }
+        }
+        catch (err) {
+            dispatch(todo_delete_failure(err));
+        }
     }
 }
 
@@ -126,26 +126,26 @@ const todo_delete_failure = error => {
 }
 
 export const todo_update = todo => {
-    return dispatch => {
+    return async dispatch => {
         const options = {
             headers,
             method: 'PUT',
             body: JSON.stringify(todo)
         };
 
-        fetch(`${BASE_URL}/${todo._id}`, options)
-            .then(res => {
-                return res.json()
-                    .then(res => {
-                        if (res.error) {
-                            dispatch(todo_update_failure(res.error.message));
-                        } else {
-                            dispatch(todo_update_success(res.data));
-                        }
-                    })
-                    .catch(err => dispatch(todo_update_failure(err)));
-            })
-            .catch(err => dispatch(todo_update_failure(err)));
+        try {
+            let res = await fetch(`${BASE_URL}/${todo._id}`, options);
+            let data = await res.json();
+
+            if (data.error) {
+                dispatch(todo_update_failure(data.error.message));
+            } else {
+                dispatch(todo_update_success(data.data));
+            }
+        }
+        catch (err) {
+            dispatch(todo_update_failure(err));
+        }
     }
 }
 
